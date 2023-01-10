@@ -1,28 +1,25 @@
 import {useState,useEffect} from "react";
 
-const useFetch = (url,options)=> {
-    const [status,setStatus] = useState({
-        loading:false,
-        data:undefined,
-        error:undefined
-    })
-    function fetchNow(url,options){
-        setStatus({loading:true})
-        fetch(url,options)
-            .then((res)=>res.json())
-            .then((json)=>{
-                setStatus({loading:false,data:json})
-            })
-            .catch((error)=>{
-                setStatus({loading:false,error})
-            })
-    }
+const useFetch = (url)=> {
+    const [status,setStatus]=useState([])
+    const [isloading,setIsLoading]=useState(false)
+    const [error,setError]=useState()
     useEffect(()=>{
-        if(url){
-            fetchNow(url,options)
-        }
-    },[])
-    return {...status,fetchNow}
+        setIsLoading(true)
+        fetch(url)
+                .then((res)=>res.json())
+                .then((data)=>{
+                    setStatus(data)
+                    setIsLoading(false)
+                  
+                })
+                .catch((err)=>{
+                    setError(err)
+                    setIsLoading(false)
+                    
+                })
+    },[url])
+    return {status, isloading, error}
 }
 
 export default useFetch;
