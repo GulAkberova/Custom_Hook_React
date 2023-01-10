@@ -1,24 +1,26 @@
-import logo from './logo.svg';
+import { useEffect } from 'react';
 import './App.css';
+import useLocalStorage from './customHooks/useLocalStorage';
+import useFetch from './customHooks/useFetch';
 
 function App() {
+// const[data,setData]=useLocalStorage('name','afesw')
+
+const {data,loading,error} =  useFetch('https://dummyjson.com/products/1');
+if(loading) return 'loading...'
+
+if(error){
+ return console.log('error',error)
+}
+console.log(data)
+// useEffect(()=>{
+//   console.log(data)
+// },[data])
+// console.log(data)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+     
+    </>
   );
 }
 
